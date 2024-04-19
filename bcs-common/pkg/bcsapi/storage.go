@@ -718,7 +718,7 @@ func (c *StorageCli) QueryK8SPod(cluster, namespace string, pods ...string) ([]*
 
 	if len(pods) != 0 {
 		for _, pod := range pods {
-			var podsTmp []*storage.Pod
+			var podsTmp *storage.Pod
 			path := fmt.Sprintf("%s/%s?limit=%d", subPath, pod, storageRequestLimit)
 			response, err := c.query(cluster, path)
 			if err != nil {
@@ -728,7 +728,7 @@ func (c *StorageCli) QueryK8SPod(cluster, namespace string, pods ...string) ([]*
 			if err := json.Unmarshal(response.Data, &podsTmp); err != nil {
 				return nil, fmt.Errorf("pods slice decode err: %s", err.Error())
 			}
-			podList = append(podList, podsTmp...)
+			podList = append(podList, podsTmp)
 		}
 	} else {
 		offset := 0
